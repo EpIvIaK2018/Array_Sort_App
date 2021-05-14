@@ -1,7 +1,7 @@
 package sample;
 
 public class Text {
-
+	// Я изменил Программу!!!
     static String Get_text(Rect[] array, int iterator)
     {
         String[] text = new String[array.length];
