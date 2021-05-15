@@ -13,7 +13,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 public class Main extends Application {
-    Text [] Final_Text;
+    private Text [] Final_Text;
+
+    public void Array_Merge(Rect[] array){
+        for(int i = 0; i < array.length; i++){
+            array[i].set_height(((int) Math.floor(Math.random() * 100)));
+        }
+    }
     @Override
     public void start(Stage primaryStage) throws Exception {
         VBox root = new VBox();
@@ -24,6 +30,7 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root,  width, height));
 
         Button Button_StartSort = new Button("Старт сортировки");
+        Button Button_Reset = new Button("Сброс");
         int countOfElements = 30;
         Rect[] arrayList =    new Rect[countOfElements];
         Rect[] NewArrayList = new Rect[countOfElements];
@@ -77,13 +84,15 @@ public class Main extends Application {
         RadioButton_3.setToggleGroup(group);
         RadioButton_4.setToggleGroup(group);
 
-        anchorPane.getChildren().addAll(Button_StartSort, RadioButton_1, RadioButton_2, RadioButton_3, RadioButton_4);
+        anchorPane.getChildren().addAll(Button_StartSort, Button_Reset, RadioButton_1, RadioButton_2, RadioButton_3, RadioButton_4);
         anchorPane.setBackground(new Background(new BackgroundFill(Color.BLACK, new CornerRadii(4), Insets.EMPTY)));
         AnchorPane.setBottomAnchor(Button_StartSort, (double)height);
+        AnchorPane.setBottomAnchor(Button_Reset, (double)height );
         AnchorPane.setBottomAnchor(RadioButton_1, (double)height - 50);
         AnchorPane.setBottomAnchor(RadioButton_2, (double)height - 50);
         AnchorPane.setBottomAnchor(RadioButton_3, (double)height - 50);
         AnchorPane.setBottomAnchor(RadioButton_4, (double)height - 50);
+        AnchorPane.setLeftAnchor(Button_Reset, (double) width - 54);
         AnchorPane.setLeftAnchor(RadioButton_1, (double) 50);
         AnchorPane.setLeftAnchor(RadioButton_2, (double) 300);
         AnchorPane.setLeftAnchor(RadioButton_3, (double) 550);
@@ -108,23 +117,26 @@ public class Main extends Application {
                     RadioButton_2.setDisable(true);
                     RadioButton_3.setDisable(true);
                     RadioButton_4.setDisable(true);
-                    switch (label_Bubble.getText()){
-                        case  ("Пузырьковая сортировка"):
+                    switch (label_Bubble.getText()) {
+                        case ("Пузырьковая сортировка"):
                             SortOfArray.Bubble_sort(NewArrayList, NewWorkWithText);
                             break;
-                        case  ("Сортировка выбором"):
+                        case ("Сортировка выбором"):
                             SortOfArray.Selection_sort(NewArrayList, NewWorkWithText);
                             break;
-                        case  ("Сортировка вставками"):
+                        case ("Сортировка вставками"):
                             SortOfArray.Insertion_Sort(NewArrayList, NewWorkWithText);
                             break;
-                        case  ("Шейкерная сортировка"):
+                        case ("Шейкерная сортировка"):
                             SortOfArray.Shuttle_sort(NewArrayList, NewWorkWithText);
                             break;
                         default:
                             System.out.println(Button_StartSort.getText());
                             break;
-                    }
+                        }
+                    Button_Reset.setOnAction(e -> {
+                        Array_Merge(NewArrayList);
+                    });
                     primaryStage.show();
                     try {
                         Thread.sleep(100);

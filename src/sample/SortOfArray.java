@@ -1,10 +1,11 @@
 package sample;
 
-public class SortOfArray extends Thread implements Cloneable {
+public class SortOfArray {
     static private int Lvalue = 0;
     static private boolean There_is_a_change = false;
     static private boolean Begin = false;
     static private int Rvalue = 0;
+    static public  boolean TheEnd = false;
 
     public static void Bubble_sort(Rect[] array, WorkWithText text) {
         if (!Begin) {
@@ -16,10 +17,7 @@ public class SortOfArray extends Thread implements Cloneable {
             for (int i = Lvalue; i < Rvalue; i++) {
                 if (array[i].get_height() > array[i + 1].get_height()) {
                     Lvalue = i;
-                    int temp = (int) array[i].get_height();
-                    text.update_markers(i, i + 1);
-                    array[i].set_height(array[i + 1].get_height());
-                    array[i + 1].set_height(temp);
+                    Swap(array, i, i + 1, text);
                     break;
                 }
                 if (i == Rvalue - 1) There_is_a_change = true;
@@ -51,10 +49,7 @@ public class SortOfArray extends Thread implements Cloneable {
                 for (int i = CurrentLeft; i < Rvalue; i++) {
                     Count = i;
                     if (array[i].get_height() > array[i + 1].get_height()) {
-                        int temp = (int) array[i].get_height();
-                        text.update_markers(i, i + 1);
-                        array[i].set_height(array[i + 1].get_height());
-                        array[i + 1].set_height(temp);
+                        Swap(array, i, i + 1, text);
                         CurrentLeft = i;
                         break;
                     }
@@ -72,10 +67,7 @@ public class SortOfArray extends Thread implements Cloneable {
                 for (int i = CurrentRight; i >= Lvalue; i--) {
                     Count = i;
                     if (array[i].get_height() < array[i - 1].get_height()) {
-                        int temp = (int) array[i].get_height();
-                        text.update_markers(i, i - 1);
-                        array[i].set_height(array[i - 1].get_height());
-                        array[i - 1].set_height(temp);
+                        Swap(array, i, i - 1, text);
                         CurrentRight = i;
                         break;
                     }
@@ -91,7 +83,7 @@ public class SortOfArray extends Thread implements Cloneable {
         }
     }
 
-    public static void Insertion_Sort(Rect[] array, WorkWithText text) {
+    public static boolean Insertion_Sort(Rect[] array, WorkWithText text) {
         for (int i = 0; i < array.length; i++) {
             int val = (int) array[i].get_height();
             int j = i - 1;
@@ -102,7 +94,9 @@ public class SortOfArray extends Thread implements Cloneable {
                 break;
             }
             array[j + 1].set_height(val);
+            TheEnd = true;
         }
+        return false;
     }
 
     public static void Selection_sort(Rect[] array, WorkWithText text) {
@@ -110,7 +104,7 @@ public class SortOfArray extends Thread implements Cloneable {
             Lvalue = 0;
             Begin = true;
         }
-        double Min = 500;
+        int Min = 500;
         while (Lvalue < array.length) {
             int Iterator = 0;
             for (int i = Lvalue; i < array.length; i++) {
@@ -126,6 +120,14 @@ public class SortOfArray extends Thread implements Cloneable {
             Lvalue++;
             break;
         }
+    }
+
+    public static void Swap(Rect[] array, int L_value, int R_value, WorkWithText text)
+    {
+        text.update_markers(L_value, R_value);
+        double temp = array[L_value].get_height();
+        array[L_value].set_height(array[R_value].get_height());
+        array[R_value].set_height(temp);
     }
 }
 
